@@ -19,7 +19,7 @@ object Versions {
   const val app_compat = "1.3.1"
   const val material = "1.4.0"
   const val constraint_layout = "2.1.0"
-  const val androidx_ui = "1.0.0-alpha07"
+  const val androidx_ui = "1.0.0-alpha08"
   const val compose = "1.0.1"
   const val compose_activity = "1.3.1"
   const val compose_viewmodel = "1.0.0-alpha07"
@@ -35,4 +35,5 @@ object Versions {
   const val room =  "2.3.0"
   const val junit_jupiter = "5.7.0"
   const val datastore = "1.0.0-alpha06"
+  const val chucker = "3.5.2"
 }

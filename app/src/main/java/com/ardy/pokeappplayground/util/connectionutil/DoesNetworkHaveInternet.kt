@@ -1,7 +1,6 @@
 package com.ardy.pokeappplayground.util.connectionutil
 
 import android.util.Log
-import com.ardy.pokeappplayground.util.TAG
 import java.io.IOException
 import java.net.InetSocketAddress
 import javax.net.SocketFactory

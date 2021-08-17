@@ -1,23 +1,31 @@
 package com.ardy.pokeappplayground
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.ui.platform.LocalContext
-import androidx.hilt.navigation.HiltViewModelFactory
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.compose.navArgument
 import androidx.navigation.compose.rememberNavController
 import ccom.ardy.pokeappplayground.cache.datastore.SettingsDataStore
 import com.ardy.pokeappplayground.presentation.navigation.Screen
+import com.ardy.pokeappplayground.presentation.ui.pokedetail.PokeDetailScreen
+import com.ardy.pokeappplayground.presentation.ui.pokedetail.PokeDetailViewModel
 import com.ardy.pokeappplayground.presentation.ui.pokelist.PokeListScreen
 import com.ardy.pokeappplayground.presentation.ui.pokelist.PokeListViewModel
+import com.ardy.pokeappplayground.util.Constants
 import com.ardy.pokeappplayground.util.connectionutil.ConnectivityManager
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import javax.inject.Inject
 
+@ExperimentalFoundationApi
+@ExperimentalCoroutinesApi
 @ExperimentalMaterialApi
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,38 +49,39 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
+            Log.d(
+                Constants.TAG,
+                "onCreate: IS INTERNET AVAILABLE? ${connectivityManager.isNetworkAvailable.value}"
+            )
+
             val navController = rememberNavController()
             NavHost(navController = navController, startDestination = Screen.PokeList.route) {
 
                 /*  pokemon list page */
                 composable(route = Screen.PokeList.route) { navBackStackEntry ->
-                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-                    val viewModel: PokeListViewModel = viewModel(this@MainActivity, "PokeListViewModel", factory)
                     PokeListScreen(
                         isDarkTheme = settingsDataStore.isDark.value,
                         isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
                         onToggleTheme = settingsDataStore::toggleTheme,
                         onNavigateToPokeDetailScreen = navController::navigate,
-                        viewModel = viewModel,
+                        viewModel = hiltViewModel<PokeListViewModel>(),
                     )
                 }
 
                 /*  pokemon detail page */
-//                composable(
-//                    route = Screen.PokeDetail.route + "/{pokeId}",
-//                    arguments = listOf(navArgument("pokeId") {
-//                        type = NavType.IntType
-//                    })
-//                ) { navBackStackEntry ->
-//                    val factory = HiltViewModelFactory(LocalContext.current, navBackStackEntry)
-//                    val viewModel: RecipeViewModel = viewModel(this@MainActivity, "RecipeDetailViewModel", factory)
-//                    RecipeDetailScreen(
-//                        isDarkTheme = settingsDataStore.isDark.value,
-//                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
-//                        recipeId = navBackStackEntry.arguments?.getInt("recipeId"),
-//                        viewModel = viewModel,
-//                    )
-//                }
+                composable(
+                    route = Screen.PokeDetail.route + "/{pokemonId}",
+                    arguments = listOf(navArgument("pokemonId") {
+                        type = NavType.IntType
+                    })
+                ) { navBackStackEntry ->
+                    PokeDetailScreen(
+                        isDarkTheme = settingsDataStore.isDark.value,
+                        isNetworkAvailable = connectivityManager.isNetworkAvailable.value,
+                        pokemonId = navBackStackEntry.arguments?.getInt("pokemonId"),
+                        viewModel = hiltViewModel<PokeDetailViewModel>(),
+                    )
+                }
             }
         }
     }

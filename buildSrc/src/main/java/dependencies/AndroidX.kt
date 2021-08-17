@@ -5,7 +5,7 @@ object AndroidX {
   const val core_ktx = "androidx.core:core-ktx:${Versions.core_ktx}"
   const val app_compat = "androidx.appcompat:appcompat:${Versions.app_compat}"
   const val constraint_layout = "androidx.constraintlayout:constraintlayout:${Versions.constraint_layout}"
-  const val ui_tooling = "androidx.ui:ui-tooling:${Versions.androidx_ui}"
+  const val ui_tooling = "androidx.compose.ui:ui-tooling:${Versions.androidx_ui}"
 
   // we will remove these 2 dependencies later when building the compose-only nav system
   const val nav_fragment_ktx = "androidx.navigation:navigation-fragment-ktx:${Versions.nav_component}"
@@ -21,7 +21,7 @@ object AndroidX {
   const val compose_icons_extended = "androidx.compose.material:material-icons-extended:${Versions.compose}"
 
   const val navigation_compose = "androidx.navigation:navigation-compose:${Versions.nav_compose}"
-  const val navigation_hilt = "androidx.hilt:hilt-navigation:${Versions.hilt_navigation}"
+  const val navigation_hilt = "androidx.hilt:hilt-navigation-compose:${Versions.hilt_navigation}"
 
   const val room_runtime = "androidx.room:room-runtime:${Versions.room}"
   const val room_ktx = "androidx.room:room-ktx:${Versions.room}"
@@ -29,4 +29,7 @@ object AndroidX {
   const val datastore = "androidx.datastore:datastore-preferences:${Versions.datastore}"
 
   const val hilt_lifecycle_viewmodel ="androidx.hilt:hilt-lifecycle-viewmodel:${Versions.hilt_lifecycle_viewmodel}"
+
+  const val chucker_debug ="com.github.chuckerteam.chucker:library:${Versions.chucker}"
+  const val chucker_release ="com.github.chuckerteam.chucker:library-no-op:${Versions.chucker}"
 }
